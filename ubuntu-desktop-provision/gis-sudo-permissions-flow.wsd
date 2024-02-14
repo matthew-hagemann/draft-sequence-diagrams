@@ -1,4 +1,4 @@
-@startuml
+@startuml gis-sudo-permissions-flow
 Participant Root_Service as "Root Service"
 Participant GIS as "Gnome-Initial-Setup (GIS)"
 Participant Visudo as "Visudo"
