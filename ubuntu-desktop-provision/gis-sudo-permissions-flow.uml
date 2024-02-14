@@ -1,0 +1,16 @@
+@startuml
+Participant Root_Service as "Root Service"
+Participant GIS as "Gnome-Initial-Setup (GIS)"
+Participant Visudo as "Visudo"
+Participant Sudoers as "Sudoers Configuration"
+
+Root_Service -> GIS: Launch GIS
+Root_Service -> Sudoers: Check for existing permissions for GIS
+alt Permissions not found
+    Root_Service -> Visudo: Request permission addition for GIS
+    Visudo -> Sudoers: Add permissions for GIS
+end
+GIS -> Root_Service: Perform setup tasks
+Root_Service -> Visudo: Request permission removal for GIS
+Visudo -> Sudoers: Remove permissions for GIS
+@enduml
