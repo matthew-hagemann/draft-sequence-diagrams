@@ -1,0 +1,30 @@
+@startuml
+title Ubuntu Pro Magic Attach Process
+
+participant User
+participant "Ubuntu Desktop Installer" as Installer
+participant "pro API" as API
+participant "sudo pro" as Pro
+participant "ubuntu.com/pro" as Server
+
+Installer->API: pro initiate
+API->Server: pro initiate
+Server-->API: user code
+API-->Installer: user code
+Installer-->User: user code
+
+Installer->API: pro wait
+API->Server: pro wait
+loop Polling
+    Server-->API: waiting for user code
+end
+User->Server: Input user code
+Server-->API: contract token
+API-->Installer: contract token
+
+Installer->Pro: pro attach with contract token
+Pro->Server: pro attach with contract token
+Server-->Pro: machine attached to Pro
+Pro-->Installer: machine attached to Pro
+Installer-->User: success dialog
+@enduml
