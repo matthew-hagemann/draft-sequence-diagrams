@@ -3,28 +3,30 @@ title Ubuntu Pro Magic Attach Process
 
 participant User
 participant "Ubuntu Init" as Installer
-participant "pro API" as API
-participant "pro dbus" as Pro
+participant "Provd (Backend)" as Provd
+participant "Pro API" as ProAPI
 participant "ubuntu.com/pro" as Server
 
-Installer->API: pro initiate
-API->Server: pro initiate
-Server-->API: user code
-API-->Installer: user code
+Installer->Provd: AttachUbuntuPro (gRPC stream)
+Provd->ProAPI: pro initiate
+ProAPI->Server: pro initiate
+Server-->ProAPI: user code
+ProAPI-->Provd: user code
+Provd-->Installer: user code (stream)
 Installer-->User: user code
 
-Installer->API: pro wait
-API->Server: pro wait
+Provd->ProAPI: pro wait
+ProAPI->Server: pro wait
 loop Polling
-    Server-->API: waiting for user code
+    Server-->ProAPI: waiting for user code
 end
 User->Server: Input user code
-Server-->API: contract token
-API-->Installer: contract token
-
-Installer->Pro: pro attach with contract token
-Pro->Server: pro attach with contract token
-Server-->Pro: machine attached to Pro
-Pro-->Installer: machine attached to Pro
+Server-->ProAPI: contract token
+ProAPI-->Provd: contract token
+Provd->ProAPI: pro attach with contract token
+ProAPI->Server: pro attach with contract token
+Server-->ProAPI: machine attached to Pro
+ProAPI-->Provd: machine attached to Pro
+Provd-->Installer: success (stream)
 Installer-->User: success dialog
 @enduml
