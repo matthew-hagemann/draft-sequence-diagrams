@@ -2,9 +2,9 @@
 title Ubuntu Pro Magic Attach Process
 
 participant User
-participant "Ubuntu Desktop Installer" as Installer
+participant "Ubuntu Init" as Installer
 participant "pro API" as API
-participant "sudo pro" as Pro
+participant "pro dbus" as Pro
 participant "ubuntu.com/pro" as Server
 
 Installer->API: pro initiate
